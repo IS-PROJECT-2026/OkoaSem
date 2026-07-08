@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steven Yabann | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .selection\:bg-indigo-500\/30 ::selection {
+            background-color: rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-300 font-sans selection:bg-indigo-500/30">
+
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent py-6 bg-transparent">
+        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-black tracking-tighter text-white flex items-center gap-2">
+                <i class="fa-solid fa-terminal text-indigo-500 text-xl"></i>
+                Steven<span class="text-indigo-500">.</span>
+            </a>
+            <div class="hidden md:flex gap-8 text-sm font-medium">
+                <a href="#home" class="nav-link capitalize transition-colors hover:text-indigo-400 text-indigo-500" data-section="home">home</a>
+                <a href="#about" class="nav-link capitalize transition-colors hover:text-indigo-400 text-slate-400" data-section="about">about</a>
+                <a href="#projects" class="nav-link capitalize transition-colors hover:text-indigo-400 text-slate-400" data-section="projects">projects</a>
+            </div>
+            <a href="#contact" class="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white transition-all border border-slate-700 text-sm font-medium">
+                Contact Me
+            </a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6">
+        
+        <section id="home" class="min-h-screen flex flex-col justify-center pt-20 pb-12">
+            <div class="inline-block mb-6">
+                <span class="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-sm font-medium border border-indigo-500/20">
+                    Systems & Machine Learning
+                </span>
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6 text-white">
+                Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Steven</span>.
+            </h1>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-500 mb-8 max-w-4xl">
+                Systems & Machine Learning Engineer [cite: 11, 22]
+            </h2>
+            <p class="text-lg md:text-xl text-slate-400 max-w-2xl mb-12 leading-relaxed">
+                Architecting high-performance compiler infrastructure, accelerated ML pipelines, and distributed edge intelligence systems.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#projects" class="flex items-center justify-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-lg font-medium hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-500/20">
+                    <i class="fa-solid fa-briefcase"></i>
+                    Explore Engineering Projects
+                </a>
+                <a href="https://github.com" target="_blank" rel="noreferrer" class="flex items-center justify-center gap-2 bg-slate-900 text-slate-300 border border-slate-800 px-8 py-4 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="fa-brands fa-github"></i>
+                    GitHub Profile
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="py-24 border-t border-slate-800/50">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div>
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="p-3 rounded-lg bg-indigo-500/10 text-indigo-400">
+                            <i class="fa-solid fa-user text-xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white">About Me</h3>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed text-lg mb-8">
+                        I am a computer science student and Research Assistant at Strathmore University specializing in low-level software optimization and machine learning operations[cite: 5, 11, 22]. From building Siamese CNNs to bypass memory-intensive bottlenecks to designing communication-efficient federated learning systems for industrial infrastructure, I thrive at the convergence of heavy backend systems and AI[cite: 24, 33].
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="text-slate-400 hover:text-indigo-400 transition-colors">
+                            <i class="fa-brands fa-linkedin text-2xl"></i>
+                        </a>
+                        <a href="https://github.com" target="_blank" rel="noreferrer" class="text-slate-400 hover:text-indigo-400 transition-colors">
+                            <i class="fa-brands fa-github text-2xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="p-3 rounded-lg bg-cyan-500/10 text-cyan-400">
+                            <i class="fa-solid fa-microchip text-xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white">Technical Arsenal</h3>
+                    </div>
+                    <div class="space-y-8">
+                        <div>
+                            <h4 class="text-slate-200 font-semibold mb-4 text-lg">Programming Languages</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">C++</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">Python</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">Golang</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">SQL</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">JavaScript</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">HTML/CSS</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-slate-200 font-semibold mb-4 text-lg">Systems & Infrastructure</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">LLVM</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">LLVM Enzyme</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">Docker</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">Git</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">Postman</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">Vite</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-slate-200 font-semibold mb-4 text-lg">Data & Machine Learning</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">PyTorch</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">NumPy</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">Pandas</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">ONNX</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">Matplotlib</span>
+                                <span class="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 transition-colors cursor-default">Power BI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-24 border-t border-slate-800/50">
+            <div class="flex items-center gap-3 mb-12">
+                <div class="p-3 rounded-lg bg-purple-500/10 text-purple-400">
+                    <i class="fa-solid fa-code text-xl"></i>
+                </div>
+                <h3 class="text-3xl font-bold text-white">Featured Projects</h3>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 hover:border-indigo-500/50 transition-all duration-300 group flex flex-col h-full relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div class="flex justify-between items-start mb-6">
+                            <h4 class="text-xl font-bold text-slate-100 group-hover:text-indigo-400 transition-colors">
+                                Federated Learning for Hydropower Predictive Maintenance [cite: 33]
+                            </h4>
+                            <a href="#" class="text-slate-500 hover:text-white transition-colors">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-lg"></i>
+                            </a>
+                        </div>
+                        <p class="text-slate-400 mb-8 flex-grow leading-relaxed text-sm">
+                            Designing a communication-efficient federated learning system for KenGen's hydropower infrastructure across the Seven Forks cascade[cite: 33]. Solves data heterogeneity and strict cybersecurity constraints using gradient compression and asynchronous aggregation on geographically isolated edge nodes[cite: 33, 34, 35].
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="text-xs font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded-full">Python</span>
+                            <span class="text-xs font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded-full">PyTorch</span>
+                            <span class="text-xs font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded-full">MQTT</span>
+                            <span class="text-xs font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded-full">Edge AI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 hover:border-indigo-500/50 transition-all duration-300 group flex flex-col h-full relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div class="flex justify-between items-start mb-6">
+                            <h4 class="text-xl font-bold text-slate-100 group-hover:text-indigo-400 transition-colors">
+                                Accelerated Gradual Pattern Mining [cite: 24]
+                            </h4>
+                            <a href="#" class="text-slate-500 hover:text-white transition-colors">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-lg"></i>
+                            </a>
+                        </div>
+                        <p class="text-slate-400 mb-8 flex-grow leading-relaxed text-sm">
+                            Developed a Siamese CNN architecture in PyTorch to optimize Gradual Pattern (GP) mining[cite: 24]. Transformed multi-variate data into spatial representations, replacing memory-intensive bitwise-AND operations and drastically cutting memory overhead on large scale data streams[cite: 24, 25].
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="text-xs font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded-full">PyTorch</span>
+                            <span class="text-xs font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded-full">CNN</span>
+                            <span class="text-xs font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded-full">Systems Optimization</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 hover:border-indigo-500/50 transition-all duration-300 group flex flex-col h-full relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div class="flex justify-between items-start mb-6">
+                            <h4 class="text-xl font-bold text-slate-100 group-hover:text-indigo-400 transition-colors">
+                                MLOps Stream Classifier [cite: 19]
+                            </h4>
+                            <a href="#" class="text-slate-500 hover:text-white transition-colors">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-lg"></i>
+                            </a>
+                        </div>
+                        <p class="text-slate-400 mb-8 flex-grow leading-relaxed text-sm">
+                            Built and deployed an end-to-end inference pipeline to interpret and classify live data streams[cite: 19]. Integrated rigorous model monitoring, drift evaluation, and automated retraining triggers to maintain structural reliability over evolving data distributions[cite: 20].
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="text-xs font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded-full">MLOps</span>
+                            <span class="text-xs font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded-full">Model Monitoring</span>
+                            <span class="text-xs font-semibold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded-full">Pipelines</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="contact" class="bg-slate-900 border-t border-slate-800 py-16 mt-12">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h4 class="text-3xl font-bold text-white mb-6">Ready to collaborate?</h4>
+            <p class="text-slate-400 max-w-xl mx-auto mb-10 text-lg">
+                Whether discussing low-level engineering optimizations, scalable inference systems, or distributed machine learning paradigms—reach out and let's optimize something beautiful.
+            </p>
+            <a href="mailto:steven.yabann@strathmore.edu" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-lg font-medium hover:bg-indigo-700 transition-colors">
+                <i class="fa-solid fa-envelope"></i>
+                Say Hello
+            </a>
+            
+            <div class="mt-20 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-slate-500 text-sm flex items-center gap-1">
+                    Designed & Built by <span class="text-slate-300 font-medium">Steven Yabann</span>
+                </div>
+                <div class="flex gap-6">
+                    <a href="https://github.com" class="text-slate-500 hover:text-white transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+                    <a href="https://linkedin.com" class="text-slate-500 hover:text-indigo-400 transition-colors"><i class="fa-brands fa-linkedin text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = ['home', 'about', 'projects'];
+
+        window.addEventListener('scroll', () => {
+            // Navbar glassmorphism toggle
+            if (window.scrollY > 50) {
+                navbar.classList.remove('bg-transparent', 'border-transparent', 'py-6');
+                navbar.classList.add('bg-slate-950/80', 'backdrop-blur-md', 'border-slate-800', 'py-4');
+            } else {
+                navbar.classList.remove('bg-slate-950/80', 'backdrop-blur-md', 'border-slate-800', 'py-4');
+                navbar.classList.add('bg-transparent', 'border-transparent', 'py-6');
+            }
+
+            // Scroll Spy logic
+            let currentSection = 'home';
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top <= 120 && rect.bottom >= 120) {
+                        currentSection = section;
+                    }
+                }
+            });
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-section') === currentSection) {
+                    link.classList.remove('text-slate-400');
+                    link.classList.add('text-indigo-500');
+                } else {
+                    link.classList.remove('text-indigo-500');
+                    link.classList.add('text-slate-400');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
