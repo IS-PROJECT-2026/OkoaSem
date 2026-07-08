@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Me — Marlyn Muchina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --vinyl:      #0A0A0A;
+      --vinyl-mid:  #161616;
+      --groove:     #1F1F1F;
+      --paper:      #F2EBDC;
+      --paper2:     #E8DFCB;
+      --paper3:     #D9CEBC;
+      --ink:        #1A1410;
+      --ink2:       #4A3F32;
+      --ink3:       #8A7B6A;
+      --red:        #9B1D20;
+      --red2:       #C42528;
+      --cream:      #FAF5EC;
+      --gold:       #B8962E;
+    }
+
+    html { height: 100%; }
+
+    body {
+      font-family: 'Playfair Display', Georgia, serif;
+      background: #2A2520;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 20px 60px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SLEEVE WRAPPER ───────────────────────────────────────────────────────── */
+    .sleeve {
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      min-height: 600px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 4px 16px rgba(0,0,0,0.5);
+    }
+
+    /* ── LEFT: ALBUM COVER ────────────────────────────────────────────────────── */
+    .cover {
+      background: var(--vinyl);
+      position: relative;
+      overflow: hidden;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Vinyl groove rings */
+    .grooves {
+      position: absolute;
+      inset: 0;
+      background: repeating-radial-gradient(
+        circle at 42% 58%,
+        transparent 0px,
+        transparent 6px,
+        rgba(255,255,255,0.018) 6px,
+        rgba(255,255,255,0.018) 7px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Subtle vignette */
+    .vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 42% 58%, transparent 30%, rgba(0,0,0,0.65) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Label area top */
+    .cover-label-top {
+      position: relative;
+      z-index: 10;
+      padding: 24px 28px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .label-logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 3px 8px;
+    }
+
+    .label-cat {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 1px;
+    }
+
+    /* Photo sits centre-cover */
+    .cover-photo-wrap {
+      position: relative;
+      z-index: 10;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 32px;
+    }
+
+    .cover-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.12);
+      background: var(--vinyl-mid);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .cover-photo::before {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+
+    .cover-photo::after {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.04);
+      pointer-events: none;
+    }
+
+    .cover-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .upload-icon { opacity: 0.2; }
+
+    .upload-hint {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+      line-height: 1.6;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Cover text bottom */
+    .cover-text {
+      position: relative;
+      z-index: 10;
+      padding: 0 28px 28px;
+    }
+
+    .cover-artist {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 8px;
+    }
+
+    .cover-title {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1.0;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    .cover-title em {
+      font-style: italic;
+      color: var(--red2);
+    }
+
+    .cover-genre-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .genre-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(184,150,46,0.4);
+      padding: 3px 8px;
+    }
+
+    .cover-year {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 1px;
+    }
+
+    /* ── RIGHT: LINER NOTES ───────────────────────────────────────────────────── */
+    .liner {
+      background: var(--paper);
+      padding: 32px 36px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .liner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 27px,
+          rgba(0,0,0,0.04) 27px,
+          rgba(0,0,0,0.04) 28px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .liner > * { position: relative; z-index: 1; }
+
+    /* Liner header */
+    .liner-masthead {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1.5px solid var(--ink);
+    }
+
+    .masthead-left h2 {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--ink3);
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 2px;
+    }
+
+    .masthead-left p {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.1;
+      letter-spacing: -0.3px;
+    }
+
+    .masthead-right {
+      text-align: right;
+    }
+
+    .masthead-right a {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--red);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      line-height: 1.8;
+    }
+
+    .masthead-right a:hover { text-decoration: underline; }
+
+    /* ── NOTES SECTION ────────────────────────────────────────────────────────── */
+    .note-section {
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 0.5px solid var(--paper3);
+    }
+
+    .note-section:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .note-kicker {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 3px;
+    }
+
+    .note-heading {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 5px;
+      line-height: 1.2;
+    }
+
+    .note-prompt {
+      font-size: 10.5px;
+      font-style: italic;
+      color: var(--ink3);
+      margin-bottom: 7px;
+      line-height: 1.5;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .note-body {
+      font-size: 12.5px;
+      color: var(--ink2);
+      line-height: 1.75;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+    }
+
+    /* ── CREDITS BLOCK (tech stack) ───────────────────────────────────────────── */
+    .credits-block {
+      background: var(--paper2);
+      border: 0.5px solid var(--paper3);
+      padding: 12px 14px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .credits-row {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 6px;
+      font-size: 10px;
+      line-height: 2;
+      border-bottom: 0.5px dashed var(--paper3);
+    }
+
+    .credits-row:last-child { border-bottom: none; }
+
+    .credits-key {
+      color: var(--ink3);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-size: 9px;
+    }
+
+    .credits-val {
+      color: var(--ink2);
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    /* ── TRACK LISTING (skills) ───────────────────────────────────────────────── */
+    .tracklist {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .track {
+      display: grid;
+      grid-template-columns: 22px 1fr 28px;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 0;
+      border-bottom: 0.5px solid var(--paper3);
+      font-size: 11.5px;
+    }
+
+    .track:last-child { border-bottom: none; }
+
+    .track-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--ink3);
+      text-align: right;
+    }
+
+    .track-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--ink2);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .track-dur {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      color: var(--ink3);
+      text-align: right;
+    }
+
+    /* ── LINER FOOTER ─────────────────────────────────────────────────────────── */
+    .liner-footer {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1.5px solid var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .liner-footer-copy {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      color: var(--ink3);
+      letter-spacing: 1px;
+      line-height: 1.6;
+    }
+
+    .liner-footer-back {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--red);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+    }
+
+    .liner-footer-back:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+    @media (max-width: 720px) {
+      body { padding: 0 0 40px; }
+      .sleeve { grid-template-columns: 1fr; max-width: 500px; }
+      .cover { min-height: 400px; }
+      .cover-photo { width: 150px; height: 150px; }
+      .liner { padding: 24px 24px 32px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+
+<div class="sleeve">
+
+  <div class="cover">
+    <div class="grooves" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <div class="cover-label-top">
+      <span class="label-logo">ICS Records</span>
+      <span class="label-cat">CAP–2026</span>
+    </div>
+
+    <div class="cover-photo-wrap">
+      <div class="cover-photo" role="img" aria-label="Marlyn Muchina profile photo">
+        <div class="cover-photo">
+  <img src="marlynphoto.jpg" alt="Photo of Marlyn Muchina">
+</div>
+      </div>
+    </div>
+
+    <div class="cover-text">
+      <p class="cover-artist">Marlyn Muchina</p>
+      <h1 class="cover-title">About<br><em>Me.</em></h1>
+      <div class="cover-genre-row">
+        <span class="genre-tag">AI &amp; ML</span>
+        <span class="genre-tag">Developer</span>
+        <span class="cover-year">© 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="liner">
+
+    <div class="liner-masthead">
+      <div class="masthead-left">
+        <h2>Liner Notes</h2>
+        <p>The full story.</p>
+      </div>
+      <div class="masthead-right">
+        <a href="#" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://github.com/MarlynMuchina" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="index.html">← Back to company page</a>
+      </div>
+    </div>
+
+    <div class="note-section">
+      <p class="note-kicker">Side A — Track 1</p>
+      <h2 class="note-heading">My Coding Mission</h2>
+      <p class="note-prompt">What kind of real-world problems do you want to solve using technology?</p>
+      <p class="note-body">I aim to build smart systems that translate complex data into practical answers. My focus is on using artificial intelligence and machine learning to tackle pressing community and industry problems, turning technical models into tools that make everyday processes safer and more efficient.</p>
+    </div>
+
+    <div class="note-section">
+      <p class="note-kicker">Side A — Track 2</p>
+      <h2 class="note-heading">My Tech Stack</h2>
+      <p class="note-prompt">What tools do you know? What two technologies do you want to learn next?</p>
+      <div class="credits-block">
+        <div class="credits-row">
+          <span class="credits-key">Produced by</span>
+          <span class="credits-val">Python</span>
+        </div>
+        <div class="credits-row">
+          <span class="credits-key">Mixed in</span>
+          <span class="credits-val">JavaScript</span>
+        </div>
+        <div class="credits-row">
+          <span class="credits-key">Engineered on</span>
+          <span class="credits-val">Java</span>
+        </div>
+        <div class="credits-row">
+          <span class="credits-key">Next session</span>
+          <span class="credits-val">AWS Cloud Architecture</span>
+        </div>
+        <div class="credits-row">
+          <span class="credits-key">Learning</span>
+          <span class="credits-val">Advanced ML Frameworks</span>
+        </div>
+      </div>
+    </div>
+
+  <div class="note-section">
+      <p class="note-kicker">Side A — Track 3</p>
+      <h2 class="note-heading">My Passions</h2>
+      <p class="note-prompt">What do you love doing when you are not looking at a computer screen?</p>
+      <p class="note-body">When I am not deep in code or studying, you can find me outdoors exploring new trails and hiking.</p>
+    </div>
+
+    <div class="note-section">
+      <p class="note-kicker">Side B — Track 1</p>
+      <h2 class="note-heading">Skills Acquired</h2>
+      <p class="note-prompt">The three most valuable life or professional skills from your degree.</p>
+      <div class="tracklist">
+        <div class="track">
+          <span class="track-num">1.</span>
+          <span class="track-title">Algorithmic Problem Solving</span>
+          <span class="track-dur">★★★</span>
+        </div>
+        <div class="track">
+          <span class="track-num">2.</span>
+          <span class="track-title">Full-Stack System Design</span>
+          <span class="track-dur">★★★</span>
+        </div>
+        <div class="track">
+          <span class="track-num">3.</span>
+          <span class="track-title">Public Relations &amp; Team Leadership</span>
+          <span class="track-dur">★★★</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="note-section">
+      <p class="note-kicker">Side B — Track 2</p>
+      <h2 class="note-heading">Energy &amp; Engagement</h2>
+      <p class="note-prompt">Which classes or projects brought you the most energy, and why?</p>
+      <p class="note-body">The coursework involving data models and full-stack integration always brought me the most energy. Designing architectures where a system remains useful and responsive during active deployment matches exactly what I enjoy about computer science.</p>
+    </div>
+
+    <div class="note-section">
+      <p class="note-kicker">Side B — Track 3</p>
+      <h2 class="note-heading">Looking Back</h2>
+      <p class="note-prompt">If you were to give advice to your first-year self, what would it be?</p>
+      <p class="note-body">Trust the learning path and dive into practical projects early. The theories make much more sense once you start using them to build tools that solve actual problems.</p>
+    </div>
+
+    <div class="note-section">
+      <p class="note-kicker">Hidden Track</p>
+      <h2 class="note-heading">Circle of Influence</h2>
+      <p class="note-prompt">Who are the mentors, peers, or lecturers who have poured into you?</p>
+      <p class="note-body">I have been lucky to learn from supportive industry mentors, dedicated university faculty, and peers who challenge me to grow as a developer and a leader every day.</p>
+    </div>
+
+    <footer class="liner-footer">
+      <div class="liner-footer-copy">
+        ICS 4 Capstone · Strathmore University<br>
+        Nairobi, Kenya · 2026
+      </div>
+      <a href="index.html" class="liner-footer-back">← Back to company page</a>
+    </footer>
+
+  </div></div></body>
+</html>
