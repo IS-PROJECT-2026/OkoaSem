@@ -151,31 +151,107 @@ const LIFESTYLE_TABS = [
 const app = document.getElementById("app");
 let activeStack = 0;
 let activeLife = "audio";
+let sectionObserver = null;
+let eventsBound = false;
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function safe(value) {
+  return escapeHtml(value);
+}
 
 function chips(items) {
-  return items.map((x) => `<span class="chip">${x}</span>`).join("");
+  return items.map((x) => `<span class="chip">${safe(x)}</span>`).join("");
 }
 
 function sectionHeader(label, title, subtitle) {
   return `
     <div class="section-head">
-      <div class="label">${label}</div>
-      <h2 class="font-display">${title}</h2>
-      <p class="muted">${subtitle}</p>
+      <div class="label">${safe(label)}</div>
+      <h2 class="font-display">${safe(title)}</h2>
+      <p class="muted">${safe(subtitle)}</p>
     </div>
   `;
 }
 
-function render() {
-  const stack = TECH_STACK[activeStack];
+function renderStackPanel() {
+  const stack = TECH_STACK[activeStack] || TECH_STACK[0];
+  return `
+    <article class="glass card">
+      <h3 class="font-display" style="margin-top:0">${safe(stack.category)}</h3>
+      <div class="skills">${chips(stack.items)}</div>
+    </article>
+  `;
+}
+
+function renderLifePanel() {
   const life = LIFESTYLE_TABS.find((x) => x.id === activeLife) || LIFESTYLE_TABS[0];
+  return `
+    <article class="glass card">
+      <h3 class="font-display" style="margin-top:0">${safe(life.label)}</h3>
+      <p class="muted">${safe(life.content)}</p>
+      <div class="chips">${chips(life.highlights)}</div>
+    </article>
+  `;
+}
+
+function updateStackUI() {
+  document.querySelectorAll("[data-stack]").forEach((btn) => {
+    const current = Number(btn.getAttribute("data-stack")) || 0;
+    btn.classList.toggle("active", current === activeStack);
+  });
+  const panel = document.getElementById("stack-panel");
+  if (panel) panel.innerHTML = renderStackPanel();
+}
+
+function updateLifeUI() {
+  document.querySelectorAll("[data-life]").forEach((btn) => {
+    btn.classList.toggle("active", btn.getAttribute("data-life") === activeLife);
+  });
+  const panel = document.getElementById("life-panel");
+  if (panel) panel.innerHTML = renderLifePanel();
+}
+
+function setupSectionObserver() {
+  const sections = NAV_ITEMS.map((n) => document.getElementById(n.id)).filter(Boolean);
+  const navLinks = [...document.querySelectorAll("[data-nav]")];
+
+  if (sectionObserver) {
+    sectionObserver.disconnect();
+  }
+
+  sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.getAttribute("id");
+        navLinks.forEach((link) => {
+          link.classList.toggle("active", link.getAttribute("data-nav") === id);
+        });
+      });
+    },
+    { threshold: 0.55 }
+  );
+
+  sections.forEach((sec) => sectionObserver.observe(sec));
+}
+
+function render() {
+  if (!app) return;
 
   app.innerHTML = `
     <nav>
       <div class="container nav-wrap">
-        <a class="brand" href="#home">${PROFILE.firstName}<span class="dot">.</span></a>
+        <a class="brand" href="#home">${safe(PROFILE.firstName)}<span class="dot">.</span></a>
         <div class="nav-links">
-          ${NAV_ITEMS.map((n) => `<a href="#${n.id}" data-nav="${n.id}">${n.label}</a>`).join("")}
+          ${NAV_ITEMS.map((n) => `<a href="#${safe(n.id)}" data-nav="${safe(n.id)}">${safe(n.label)}</a>`).join("")}
         </div>
       </div>
     </nav>
@@ -184,12 +260,12 @@ function render() {
       <section id="home" class="section hero">
         <div>
           <div class="badge"><span class="pulse"></span> Available for collaboration · Nairobi</div>
-          <h1 class="font-display">${PROFILE.firstName} <span style="color: var(--gold)">Munyua</span></h1>
-          <p class="hero-role font-display">${PROFILE.role}</p>
-          <p class="hero-tagline">${PROFILE.tagline}</p>
+          <h1 class="font-display">${safe(PROFILE.firstName)} <span style="color: var(--gold)">Munyua</span></h1>
+          <p class="hero-role font-display">${safe(PROFILE.role)}</p>
+          <p class="hero-tagline">${safe(PROFILE.tagline)}</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#projects"><i data-lucide="arrow-right"></i> View Projects</a>
-            <a class="btn" href="${PROFILE.github}" target="_blank" rel="noreferrer"><i data-lucide="github"></i> GitHub</a>
+            <a class="btn" href="${safe(PROFILE.github)}" target="_blank" rel="noreferrer"><i data-lucide="github"></i> GitHub</a>
           </div>
         </div>
         <div>
@@ -199,9 +275,9 @@ function render() {
             <p class="muted" style="margin:0">ISO 20022 · Crypto ↔ Traditional Finance</p>
           </div>
           <div class="stats">
-            <div class="glass stat"><small>Education</small>${PROFILE.degree}</div>
+            <div class="glass stat"><small>Education</small>${safe(PROFILE.degree)}</div>
             <div class="glass stat"><small>Focus</small>Applied AI & Systems</div>
-            <div class="glass stat"><small>Based in</small>${PROFILE.location}</div>
+            <div class="glass stat"><small>Based in</small>${safe(PROFILE.location)}</div>
             <div class="glass stat"><small>Research</small>ISO 20022 Interoperability</div>
           </div>
         </div>
@@ -213,14 +289,14 @@ function render() {
         ${sectionHeader("Profile", "The Digital Ecosystem", "Academic rigor, hands-on engineering skills, and a community-centered approach to digital transformation.")}
         <div class="about-grid">
           <article class="glass card">
-            <h3 class="font-display">${PROFILE.fullName}</h3>
+            <h3 class="font-display">${safe(PROFILE.fullName)}</h3>
             <p class="muted">I am an Informatics and Computer Science undergraduate with a strong foundation in software engineering, system design, and applied AI. My experience encompasses full-stack development for non-profit initiatives and research on interoperability between cryptocurrencies and traditional financial systems.</p>
             <p class="muted">I embody academic rigor, hands-on engineering skills, and a focus on community-centered digital transformation.</p>
             <div class="chips">${chips([PROFILE.degree, PROFILE.university, "Software Engineering", "Applied AI", "System Design"])}</div>
           </article>
           <aside class="glass card">
-            <p><strong>Education:</strong> ${PROFILE.degree} · ${PROFILE.university}</p>
-            <p><strong>Location:</strong> ${PROFILE.location}</p>
+            <p><strong>Education:</strong> ${safe(PROFILE.degree)} · ${safe(PROFILE.university)}</p>
+            <p><strong>Location:</strong> ${safe(PROFILE.location)}</p>
             <p><strong>Research:</strong> ISO 20022 · Crypto & Traditional Finance</p>
             <p><strong>Community Work:</strong> Change Mtaa Initiative · Learning Support</p>
           </aside>
@@ -233,12 +309,9 @@ function render() {
         ${sectionHeader("Dev & Tech", "Technical Arsenal", "From web and mobile engineering to systems, data, and applied AI.")}
         <div class="stack-layout">
           <div class="stack-tabs">
-            ${TECH_STACK.map((group, i) => `<button class="stack-tab ${i === activeStack ? "active" : ""}" data-stack="${i}">${group.category}</button>`).join("")}
+            ${TECH_STACK.map((group, i) => `<button class="stack-tab ${i === activeStack ? "active" : ""}" data-stack="${i}">${safe(group.category)}</button>`).join("")}
           </div>
-          <article class="glass card">
-            <h3 class="font-display" style="margin-top:0">${stack.category}</h3>
-            <div class="skills">${chips(stack.items)}</div>
-          </article>
+          <div id="stack-panel">${renderStackPanel()}</div>
         </div>
       </section>
 
@@ -249,9 +322,9 @@ function render() {
         <div class="projects-grid">
           ${PROJECTS.map((p) => `
             <article class="glass card project">
-              <div class="project-sub">${p.subtitle}</div>
-              <h3 class="font-display">${p.title}</h3>
-              <p>${p.description}</p>
+              <div class="project-sub">${safe(p.subtitle)}</div>
+              <h3 class="font-display">${safe(p.title)}</h3>
+              <p>${safe(p.description)}</p>
               <div class="project-tags">${chips(p.tags)}</div>
             </article>
           `).join("")}
@@ -265,9 +338,9 @@ function render() {
         <div class="systems-grid">
           ${SYSTEM_BLOCKS.map((b) => `
             <article class="glass card">
-              <h3 class="font-display">${b.title}</h3>
+              <h3 class="font-display">${safe(b.title)}</h3>
               <ul class="muted">
-                ${b.items.map((i) => `<li style="margin-bottom:6px">${i}</li>`).join("")}
+                ${b.items.map((i) => `<li style="margin-bottom:6px">${safe(i)}</li>`).join("")}
               </ul>
             </article>
           `).join("")}
@@ -275,7 +348,7 @@ function render() {
         <article class="glass card" style="margin-top:12px">
           <h3 class="font-display" style="margin-top:0">Hardware & Gear</h3>
           <div class="hardware-grid">
-            ${HARDWARE.map((h) => `<div class="glass card"><strong>${h.label}</strong><br><span class="muted">${h.detail}</span></div>`).join("")}
+            ${HARDWARE.map((h) => `<div class="glass card"><strong>${safe(h.label)}</strong><br><span class="muted">${safe(h.detail)}</span></div>`).join("")}
           </div>
           <p class="muted" style="margin-top:10px">CSC files flashed manually - zero bloatware tolerance.</p>
         </article>
@@ -286,13 +359,9 @@ function render() {
       <section id="life" class="section">
         ${sectionHeader("Beyond Code", "Life & Interests", "Audiophile, gamer, lifter, and organizer - the human behind the terminal.")}
         <div class="life-tabs">
-          ${LIFESTYLE_TABS.map((tab) => `<button class="life-tab ${tab.id === activeLife ? "active" : ""}" data-life="${tab.id}">${tab.label}</button>`).join("")}
+          ${LIFESTYLE_TABS.map((tab) => `<button class="life-tab ${tab.id === activeLife ? "active" : ""}" data-life="${safe(tab.id)}">${safe(tab.label)}</button>`).join("")}
         </div>
-        <article class="glass card">
-          <h3 class="font-display" style="margin-top:0">${life.label}</h3>
-          <p class="muted">${life.content}</p>
-          <div class="chips">${chips(life.highlights)}</div>
-        </article>
+        <div id="life-panel">${renderLifePanel()}</div>
       </section>
     </main>
 
@@ -301,52 +370,49 @@ function render() {
         <article class="glass footer-cta">
           ${sectionHeader("Contact", "Let's build something extraordinary", "Contact me for collaboration in software engineering, system design, applied AI, and impact-driven technology projects.")}
           <div class="contact-buttons">
-            <a class="btn btn-primary" href="mailto:${PROFILE.email}"><i data-lucide="mail"></i> ${PROFILE.email}</a>
-            <a class="btn" href="tel:${PROFILE.phone}"><i data-lucide="smartphone"></i> ${PROFILE.phone}</a>
-            <a class="btn" href="${PROFILE.website}" target="_blank" rel="noreferrer"><i data-lucide="github"></i> Website</a>
+            <a class="btn btn-primary" href="mailto:${safe(PROFILE.email)}"><i data-lucide="mail"></i> ${safe(PROFILE.email)}</a>
+            <a class="btn" href="tel:${safe(PROFILE.phone)}"><i data-lucide="smartphone"></i> ${safe(PROFILE.phone)}</a>
+            <a class="btn" href="${safe(PROFILE.website)}" target="_blank" rel="noreferrer"><i data-lucide="github"></i> Website</a>
           </div>
         </article>
-        <p class="footer-note">Designed & built by ${PROFILE.shortName} · ${PROFILE.university} · ${PROFILE.year} · BICS</p>
+        <p class="footer-note">Designed & built by ${safe(PROFILE.shortName)} · ${safe(PROFILE.university)} · ${safe(PROFILE.year)} · BICS</p>
       </div>
     </footer>
   `;
 
   bindEvents();
+  setupSectionObserver();
   if (window.lucide && typeof window.lucide.createIcons === "function") {
     window.lucide.createIcons();
   }
 }
 
 function bindEvents() {
-  document.querySelectorAll("[data-stack]").forEach((btn) => {
-    btn.addEventListener("click", () => {
+  if (eventsBound) return;
+
+  const stackTabs = document.querySelector(".stack-tabs");
+  if (stackTabs) {
+    stackTabs.addEventListener("click", (event) => {
+      const btn = event.target.closest("[data-stack]");
+      if (!btn) return;
       activeStack = Number(btn.getAttribute("data-stack")) || 0;
-      render();
+      updateStackUI();
     });
-  });
+  }
 
-  document.querySelectorAll("[data-life]").forEach((btn) => {
-    btn.addEventListener("click", () => {
+  const lifeTabs = document.querySelector(".life-tabs");
+  if (lifeTabs) {
+    lifeTabs.addEventListener("click", (event) => {
+      const btn = event.target.closest("[data-life]");
+      if (!btn) return;
       activeLife = btn.getAttribute("data-life") || "audio";
-      render();
+      updateLifeUI();
     });
-  });
+  }
 
-  const sections = NAV_ITEMS.map((n) => document.getElementById(n.id)).filter(Boolean);
-  const navLinks = [...document.querySelectorAll("[data-nav]")];
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        const id = entry.target.getAttribute("id");
-        navLinks.forEach((link) => {
-          link.classList.toggle("active", link.getAttribute("data-nav") === id);
-        });
-      });
-    },
-    { threshold: 0.55 }
-  );
-  sections.forEach((sec) => observer.observe(sec));
+  eventsBound = true;
 }
 
-render();
+if (app) {
+  render();
+}
